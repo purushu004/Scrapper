@@ -1,0 +1,21 @@
+
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Address</th>
+    <th>Home Details</th>
+    <th>Price</th>
+    <th>Date</th>
+  </tr>
+
+  <% @thirty_day_data.each do |scraper| %>
+    <tr>
+      <td><%= scraper.id %></td>
+      <td><%= scraper.address %></td>
+      <td><%= scraper.home_details %></td>
+      <td><%= scraper.price %></td>
+      <td><%= scraper.date %></td>
+    </tr>
+  <% end %>
+</table>
