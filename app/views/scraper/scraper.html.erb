@@ -11,15 +11,16 @@
     <th>Price</th>
     <th>Date</th>
   </tr>
-
-  <% Scraper.all.each do |scraper| %>
-    <tr>
-      <td><%= scraper.id %></td>
-      <td><%= scraper.address %></td>
-      <td><%= scraper.home_details %></td>
-      <td><%= scraper.price %></td>
-      <td><%= scraper.date %></td>
-    </tr>
-  <% end %>
+  <span id= "results">
+    <% Scraper.all.uniq.each do |scraper| %>
+      <tr>
+        <td><%= scraper.id %></td>
+        <td><%= scraper.address %></td>
+        <td><%= scraper.home_details %></td>
+        <td><%= scraper.price %></td>
+        <td><%= scraper.date %></td>
+      </tr>
+    <% end %>
+  </span>
 </table>
 
