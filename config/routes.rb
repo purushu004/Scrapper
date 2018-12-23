@@ -7,6 +7,5 @@ Rails.application.routes.draw do
   get '/get_30days_data' => 'scraper#get_30days_data'
   resources :scrapers
   resources :links
-  match "/test" => 'scraper#scraper', :via => :post
 end
 

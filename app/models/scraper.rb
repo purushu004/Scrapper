@@ -11,8 +11,6 @@ class Scraper < ApplicationRecord
     links << link
 
     links.each do |url|
-      puts "Parent url is #{url}"
-
       html_content = get_dom_of_link(url)
       sleep(10)
       if (html_content)
@@ -31,7 +29,6 @@ class Scraper < ApplicationRecord
 
             if page != pagination
               for j in page_min...page_max
-
                 if (inner_html_dom.css("#MapHomeCard_#{j}"))
                   data = inner_html_dom.css("#MapHomeCard_#{j}").css(".HomeCard").text
                   fetched_date = inner_html_dom.css("#MapHomeCard_#{j}").search("div.topleft").text
@@ -39,19 +36,16 @@ class Scraper < ApplicationRecord
                   price = inner_html_dom.css("#MapHomeCard_#{j}").search("span.homecardV2Price").text
                   home_details = inner_html_dom.css("#MapHomeCard_#{j}").search("div.HomeStatsV2").text
                   sold_date = Chronic.parse(fetched_date)
-                  puts "House details price = #{price} // soldDate = #{sold_date} // address = #{address} // house-details = #{home_details} //"
                   sleep(10)
-
-                  self.find_or_create_by(date: sold_date, address: address, price: price, home_details: home_details)
+                  if Scraper.where(address:address).first == nil
+                    self.find_or_create_by(date: sold_date, address: address, price: price, home_details: home_details)
+                  end
                 end
               end
             elsif page == pagination
               start = (page - 1) * 20
               x = max_page_number % 20 + start
-
               for j in start...x
-                puts "Inner else if loop j value is #{j}"
-
                 if (inner_html_dom.css("#MapHomeCard_#{j}"))
                   data = inner_html_dom.css("#MapHomeCard_#{j}").css(".HomeCard").text
                   fetched_date = inner_html_dom.css("#MapHomeCard_#{j}").search("div.topleft").text
@@ -59,8 +53,10 @@ class Scraper < ApplicationRecord
                   price = inner_html_dom.css("#MapHomeCard_#{j}").search("span.homecardV2Price").text
                   home_details = inner_html_dom.css("#MapHomeCard_#{j}").search("div.HomeStatsV2").text
                   sold_date = Chronic.parse(fetched_date)
-                  puts "House details price = #{price} // soldDate = #{sold_date} // address = #{address} // house-details = #{home_details} //"
-                  self.find_or_create_by(date: sold_date, address: address, price: price, home_details: home_details)
+                  sleep(10)
+                  if Scraper.where(address:address).first == nil
+                    self.create(date: sold_date, address: address, price: price, home_details: home_details)
+                  end
                 end
               end
             end

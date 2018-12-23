@@ -9,10 +9,10 @@ class LinksController < ApplicationController
   end
 
   def create
-    x = params[:link]
-    y = x[:url]
+    link_param = params[:link]
+    link_url = link_param[:url]
     @link = Link.new(link_params)
-    Scraper.get_scraped_data(y)
+    Scraper.get_scraped_data(link_url)
     if @link.save
       redirect_to links_path
     else
@@ -20,11 +20,9 @@ class LinksController < ApplicationController
     end
   end
 
-
   def index
     @scraper_data = Scraper.all.uniq
   end
-
 
   private
     def link_params
